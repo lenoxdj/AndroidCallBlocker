@@ -8,7 +8,7 @@ namespace AndroidCallBlocker
     [Activity(Label = "AndroidCallBlocker", MainLauncher = true)]
     public class MainActivity : Activity
     {
-        public static bool BlockSimilarNumbers;
+        private bool blockSimilarNumbers;
         private const string AppName = "AndroidCallBlocker";
         private const string BlockSimilarNumbersKeyName = "BlockSimilarNumbers";
 
@@ -25,16 +25,45 @@ namespace AndroidCallBlocker
             similarNumberChk.Checked = Application.Context.GetSharedPreferences(AppName, FileCreationMode.Private)
                 .GetBoolean(BlockSimilarNumbersKeyName, false);
 
-            BlockSimilarNumbers = similarNumberChk.Checked;
+            blockSimilarNumbers = similarNumberChk.Checked;
+            HandlServiceLifeCycle();
 
             // Handle changes to checked state
             similarNumberChk.Click += (o, e) =>
             {
-                BlockSimilarNumbers = similarNumberChk.Checked;
-                var prefEditor = Application.Context.GetSharedPreferences(AppName, FileCreationMode.Private).Edit();
-                prefEditor.PutBoolean(BlockSimilarNumbersKeyName, BlockSimilarNumbers);
-                prefEditor.Commit();
+                blockSimilarNumbers = similarNumberChk.Checked;
+                WriteBlockSimilarNumbersToPreferences();
+                HandlServiceLifeCycle();
             };
+        }
+
+        private void HandlServiceLifeCycle()
+        {
+            if (blockSimilarNumbers)
+            {
+                StartBlockCallsService();
+            }
+            else
+            {
+                StopBlockCallsService();
+            }
+        }
+
+        private void StartBlockCallsService()
+        {
+            StartService(new Intent(this, typeof(BlockCallsService)));
+        }
+
+        private void StopBlockCallsService()
+        {
+            StopService(new Intent(this, typeof(BlockCallsService)));
+        }
+
+        private void WriteBlockSimilarNumbersToPreferences()
+        {
+            var prefEditor = Application.Context.GetSharedPreferences(AppName, FileCreationMode.Private).Edit();
+            prefEditor.PutBoolean(BlockSimilarNumbersKeyName, blockSimilarNumbers);
+            prefEditor.Commit();
         }
     }
 }
