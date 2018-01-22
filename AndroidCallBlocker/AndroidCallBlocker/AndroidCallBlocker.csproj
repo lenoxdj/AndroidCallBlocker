@@ -54,6 +54,7 @@
     <Reference Include="Mono.Android" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BlockCallsService.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="IncomingCallReceiver.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
