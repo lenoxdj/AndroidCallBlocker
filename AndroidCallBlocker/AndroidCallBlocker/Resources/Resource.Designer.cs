@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("AndroidCallBlocker.Resource", IsApplication=true)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("BlockSimilarNumbers.Resource", IsApplication=true)]
 
-namespace AndroidCallBlocker
+namespace BlockSimilarNumbers
 {
 	
 	
