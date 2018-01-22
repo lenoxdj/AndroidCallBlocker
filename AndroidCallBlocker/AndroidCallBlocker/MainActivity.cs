@@ -2,15 +2,14 @@
 using Android.Widget;
 using Android.OS;
 using Android.Content;
-using Android.Telephony;
 
-namespace AndroidCallBlocker
+namespace BlockSimilarNumbers
 {
-    [Activity(Label = "AndroidCallBlocker", MainLauncher = true)]
+    [Activity(Label = "BlockSimilarNumbers", MainLauncher = true)]
     public class MainActivity : Activity
     {
-        private bool blockSimilarNumbers;
-        private const string AppName = "AndroidCallBlocker";
+        public static bool BlockSimilarNumbers;
+        private const string AppName = "BlockSimilarNumbers";
         private const string BlockSimilarNumbersKeyName = "BlockSimilarNumbers";
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -26,13 +25,13 @@ namespace AndroidCallBlocker
             similarNumberChk.Checked = Application.Context.GetSharedPreferences(AppName, FileCreationMode.Private)
                 .GetBoolean(BlockSimilarNumbersKeyName, false);
 
-            blockSimilarNumbers = similarNumberChk.Checked;
+            BlockSimilarNumbers = similarNumberChk.Checked;
             HandlServiceLifeCycle();
 
             // Handle changes to checked state
             similarNumberChk.Click += (o, e) =>
             {
-                blockSimilarNumbers = similarNumberChk.Checked;
+                BlockSimilarNumbers = similarNumberChk.Checked;
                 WriteBlockSimilarNumbersToPreferences();
                 HandlServiceLifeCycle();
             };
@@ -40,7 +39,7 @@ namespace AndroidCallBlocker
 
         private void HandlServiceLifeCycle()
         {
-            if (blockSimilarNumbers)
+            if (BlockSimilarNumbers)
             {
                 StartBlockCallsService();
             }
@@ -63,7 +62,7 @@ namespace AndroidCallBlocker
         private void WriteBlockSimilarNumbersToPreferences()
         {
             var prefEditor = Application.Context.GetSharedPreferences(AppName, FileCreationMode.Private).Edit();
-            prefEditor.PutBoolean(BlockSimilarNumbersKeyName, blockSimilarNumbers);
+            prefEditor.PutBoolean(BlockSimilarNumbersKeyName, BlockSimilarNumbers);
             prefEditor.Commit();
         }
     }

@@ -7,7 +7,7 @@
     android:minHeight="25px"
     android:padding="8dp">
     <CheckBox
-        android:text="Block Similar Numbers"
+        android:text="Enable Blocking"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/blockSimilarNumbersChk" />

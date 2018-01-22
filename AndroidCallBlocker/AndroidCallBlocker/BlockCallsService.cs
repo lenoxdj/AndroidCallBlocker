@@ -3,7 +3,7 @@ using Android.Content;
 using Android.OS;
 using Android.Runtime;
 
-namespace AndroidCallBlocker
+namespace BlockSimilarNumbers
 {
     [Service(Label = "BlockCallsService", DirectBootAware = true)]
     public class BlockCallsService : Service

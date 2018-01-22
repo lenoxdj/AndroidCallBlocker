@@ -3,21 +3,25 @@ using Android.App;
 using Android.Content;
 using Android.Runtime;
 using Android.Telephony;
-using Android.Widget;
+using Android.Util;
 
-namespace AndroidCallBlocker
+namespace BlockSimilarNumbers
 {
     [BroadcastReceiver]
     [IntentFilter(new[] { "android.intent.action.PHONE_STATE" })]
     public class CallReciever : BroadcastReceiver
     {
+        private const String TAG = "BlockedCalls";
+
         public override void OnReceive(Context context, Intent intent)
         {
             var tm = (TelephonyManager)context.GetSystemService(Context.TelephonyService);
             String incomingNumber = intent.Extras.GetString("incoming_number");
 
-            if ((incomingNumber != null) && IsPhoneNumberSimilar(tm.Line1Number, incomingNumber))
+            if (MainActivity.BlockSimilarNumbers && (incomingNumber != null) && IsPhoneNumberSimilar(tm.Line1Number, incomingNumber))
             {
+                Log.Info(TAG, incomingNumber);
+
                 IntPtr TelephonyManager_getITelephony = JNIEnv.GetMethodID(
                    tm.Class.Handle,
                    "getITelephony",
